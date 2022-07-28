@@ -1,0 +1,205 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>風平浪靜 NagiAsu.xyz 伺服器贊助</title>
+    <link rel="icon" type="image/png" href="https://i.imgur.com/Bl5CPWW.png" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <style type="text/css">
+        *,
+        *:before,
+        *:after {
+            -moz-box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background-repeat: no-repeat;
+            background-size: 100% 100%;
+            background-attachment: fixed;
+            font-family: 'Nunito', sans-serif;
+            color: #384047;
+            background-color: rgba(0, 0, 0, .6);
+            background-blend-mode: multiply;
+        }
+        
+        form {
+            max-width: 800px;
+            margin: 10px auto;
+            padding: 10px 20px;
+            background: #f4f7f8;
+            border-radius: 8px;
+        }
+        
+        div {
+            max-width: 800px;
+            margin: 10px auto;
+            padding: 10px 20px;
+            background: #f4f7f8;
+            border-radius: 8px;
+            align-items: center;
+        }
+        
+        h1 {
+            margin: 0 0 30px 0;
+            text-align: center;
+        }
+        
+        input[type="text"],
+        input[type="password"],
+        input[type="date"],
+        input[type="datetime"],
+        input[type="email"],
+        input[type="number"],
+        input[type="search"],
+        input[type="tel"],
+        input[type="time"],
+        input[type="url"],
+        textarea,
+        select {
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            font-size: 16px;
+            height: auto;
+            margin: 0;
+            outline: 0;
+            padding: 15px;
+            width: 100%;
+            background-color: #e8eeef;
+            color: #8a97a0;
+            box-shadow: 0 1px 0 rgba(0, 0, 0, 0.03) inset;
+            margin-bottom: 30px;
+        }
+        
+        input[type="radio"],
+        input[type="checkbox"] {
+            margin: 0 4px 8px 0;
+        }
+        
+        select {
+            padding: 6px;
+            height: 32px;
+            border-radius: 2px;
+        }
+        
+        button {
+            padding: 19px 39px 18px 39px;
+            color: #FFF;
+            background-color: #4ba5c9;
+            font-size: 18px;
+            text-align: center;
+            font-style: normal;
+            border-radius: 5px;
+            width: 100%;
+            border: 1px solid #4ba5c9;
+            border-width: 1px 1px 3px;
+            box-shadow: 0 -1px 0 rgba(255, 255, 255, 0.1) inset;
+            margin-bottom: 10px;
+        }
+        
+        fieldset {
+            margin-bottom: 30px;
+            border: none;
+        }
+        
+        legend {
+            font-size: 1.4em;
+            margin-bottom: 10px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+        }
+        
+        label.light {
+            font-weight: 300;
+            display: inline;
+        }
+        
+        .number {
+            background-color: #4ba5c9;
+            color: #fff;
+            height: 30px;
+            width: 30px;
+            display: inline-block;
+            font-size: 0.8em;
+            margin-right: 4px;
+            line-height: 30px;
+            text-align: center;
+            text-shadow: 0 1px 0 rgba(255, 255, 255, 0.2);
+            border-radius: 100%;
+        }
+        
+        @media screen and (min-width: 480px) {
+            form {
+                max-width: 750px;
+            }
+        }
+    </style>
+</head>
+
+<body background="https://i.imgur.com/IOS70kp.jpg">
+    <div>
+        <h1>風平浪靜 NagiAsu.xyz 伺服器贊助</h1>
+        <input type='text' id='player' placeholder="在此輸入你的遊戲ID" />
+        <input type='number' id='amount' placeholder="贊助金額(最少100元以上)" />
+        <textarea type='text' id='comment' placeholder="想留言給我們的話 (可以不用填)" style="height:100px;resize: none;"></textarea>
+        <button onclick="run()">前往付款</button>
+    </div>
+    <script>
+        function run() {
+            var player, amount, comment;
+            if ($("#player").val() == "") {
+                alert("玩家ID不得為空")
+                return
+            }
+            player = $("#player").val();
+            if ($("#amount").val() == "") {
+                alert("金額不得為空或非數字")
+                return
+            }
+            if (isNaN(parseInt($("#amount").val()))) {
+                alert("金額請輸入數字")
+                return
+            }
+            amount = parseInt($("#amount").val())
+            if (amount < 100) {
+                alert("金額 最少必須為100元")
+                return
+            }
+            if (amount > 20000) {
+                alert("金額 最多只能為20000元")
+                return
+            }
+            comment = $("#comment").val();
+
+            // make form
+            var form = $('<form style="display:none;"></form>');
+            form.attr("method", "post");
+            form.attr("action", "https://donate.nagiasu.xyz/pay");
+            var playerField = $('<input></input>');
+            playerField.attr("type", "hidden");
+            playerField.attr("name", "player");
+            playerField.attr("value", player);
+            form.append(playerField);
+            var amountField = $('<input></input>');
+            amountField.attr("type", "hidden");
+            amountField.attr("name", "amount");
+            amountField.attr("value", amount);
+            form.append(amountField);
+            var commentField = $('<input></input>');
+            commentField.attr("type", "hidden");
+            commentField.attr("name", "comment");
+            commentField.attr("value", comment);
+            form.append(commentField);
+            // submit
+            $(document.body).append(form);
+            form.submit();
+        }
+    </script>
+</body>
+
+</html>
