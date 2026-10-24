@@ -1,556 +1,893 @@
 <!DOCTYPE html>
-<html lang="zh-TW" class="scroll-smooth">
+<html lang="zh-TW" class="scroll-smooth scroll-pt-20">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>風平浪靜 NagiAsu - 原味生存 Minecraft 伺服器</title>
-    <link rel="icon" type="image/svg+xml" href="img/favicon-anchor.svg">
-    
-    <!-- Tailwind CSS (CDN for instant usage) -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Press+Start+2P&display=swap" rel="stylesheet">
-    
-    <script src="https://unpkg.com/lucide@latest"></script>
-
-    <!-- Custom Config & Styles -->
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        mc: {
-                            base: '#1e293b', // slate-800
-                            light: '#f8fafc', // slate-50
-                            accent: '#0ea5e9', // sky-500
-                            dark: '#0284c7', // sky-600
-                        }
-                    },
-                    fontFamily: {
-                        sans: ['"Noto Sans TC"', 'sans-serif'],
-                        pixel: ['"Press Start 2P"', 'cursive'],
-                    }
-                }
-            }
-        }
-    </script>
-
-    <style>
-        /* Minecraft-style 3D Button Effect */
-        .mc-btn {
-            position: relative;
-            transition: all 0.1s;
-            border-bottom-width: 4px;
-        }
-        .mc-btn:active {
-            transform: translateY(4px);
-            border-bottom-width: 0px;
-            margin-bottom: 4px;
-        }
-        
-        /* Floating Animation */
-        @keyframes float {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-            100% { transform: translateY(0px); }
-        }
-        .animate-float {
-            animation: float 4s ease-in-out infinite;
-        }
-
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar {
-            width: 10px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #f1f5f9;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #cbd5e1;
-            border-radius: 5px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #94a3b8;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>風平浪靜 NagiAsu - 原味生存 Minecraft 伺服器</title>
+  <meta name="description" content="風平浪靜 Minecraft 伺服器">
+  <meta property="og:site_name" content="風平浪靜 NagiAsu.xyz">
+  <meta property="og:title" content="風平浪靜 NagiAsu - 原味生存 Minecraft 伺服器">
+  <meta property="og:description" content="風平浪靜 Minecraft 伺服器">
+  <link rel="icon" type="image/svg+xml" href="/img/favicon-anchor.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Press+Start+2P&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/site.css">
 </head>
 <body class="bg-slate-50 text-slate-800 font-sans selection:bg-sky-200 selection:text-sky-900">
+  <!-- 上方選單（全站共用，照首頁） -->
+  <nav id="navbar" class="fixed top-0 w-full z-50 transition-all duration-300 bg-white/90 backdrop-blur-md border-b border-slate-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-16 gap-4">
+        <a href="/" class="flex-shrink-0 flex items-center gap-2">
+          <svg
+  aria-hidden="true" class="text-sky-500 lucide lucide-anchor"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M12 6v16" />
+  <path d="m19 13 2-1a9 9 0 0 1-18 0l2 1" />
+  <path d="M9 11h6" />
+  <circle cx="12" cy="4" r="2" />
+</svg>
+          <span class="font-bold text-xl tracking-wider text-slate-800">風平浪靜 NagiAsu</span>
+        </a>
+        <div class="flex items-center gap-3 md:gap-8">
+          <div class="hidden md:flex space-x-8 items-center">
+            <a href="/#about" class="text-slate-600 hover:text-sky-600 font-medium transition-colors">關於</a><a href="/#join" class="text-slate-600 hover:text-sky-600 font-medium transition-colors">加入</a><a href="/#features" class="text-slate-600 hover:text-sky-600 font-medium transition-colors">特色</a><a href="/#guide" class="text-slate-600 hover:text-sky-600 font-medium transition-colors">教學</a><a href="/#gallery" class="text-slate-600 hover:text-sky-600 font-medium transition-colors">作品</a>
+          </div>
+          <button id="search-btn" type="button" aria-label="搜尋" class="flex items-center gap-2 text-slate-500 hover:text-sky-600 bg-slate-100 hover:bg-sky-50 px-3 py-2 rounded-lg transition-colors">
+            <svg
+  aria-hidden="true" class="w-4 h-4 lucide lucide-search"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="m21 21-4.34-4.34" />
+  <circle cx="11" cy="11" r="8" />
+</svg><span class="hidden lg:inline text-sm">搜尋</span>
+          </button>
+          <a href="https://discord.gg/nagiasu" target="_blank" class="hidden md:flex bg-[#5865F2] hover:bg-[#4752c4] text-white px-4 py-2 rounded font-bold items-center gap-2 transition-colors">
+            <svg
+  aria-hidden="true" class="w-4 h-4 lucide lucide-message-circle"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M2.992 16.342a2 2 0 0 1 .094 1.167l-1.065 3.29a1 1 0 0 0 1.236 1.168l3.413-.998a2 2 0 0 1 1.099.092 10 10 0 1 0-4.777-4.719" />
+</svg> Discord
+          </a>
+          <button id="mobile-menu-btn" type="button" aria-label="選單" class="md:hidden text-slate-600 hover:text-sky-600 p-2 -mr-2">
+            <svg
+  aria-hidden="true" class="w-6 h-6 lucide lucide-menu"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M4 5h16" />
+  <path d="M4 12h16" />
+  <path d="M4 19h16" />
+</svg>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-slate-100 absolute w-full shadow-xl max-h-[calc(100vh-4rem)] overflow-y-auto">
+      <div class="px-4 pt-2 pb-6 space-y-2">
+        <a href="/#about" class="block px-3 py-3 rounded-md text-base font-medium text-slate-600 hover:bg-sky-50 hover:text-sky-600">關於</a><a href="/#join" class="block px-3 py-3 rounded-md text-base font-medium text-slate-600 hover:bg-sky-50 hover:text-sky-600">加入</a><a href="/#features" class="block px-3 py-3 rounded-md text-base font-medium text-slate-600 hover:bg-sky-50 hover:text-sky-600">特色</a><a href="/#guide" class="block px-3 py-3 rounded-md text-base font-medium text-slate-600 hover:bg-sky-50 hover:text-sky-600">教學</a><a href="/#gallery" class="block px-3 py-3 rounded-md text-base font-medium text-slate-600 hover:bg-sky-50 hover:text-sky-600">作品</a>
+        <a href="https://discord.gg/nagiasu" target="_blank" class="block px-3 py-3 rounded-md text-base font-medium text-[#5865F2] bg-slate-50 mt-2">加入 Discord</a>
+      </div>
+    </div>
+  </nav>
 
-    <!-- Navbar -->
-    <nav id="navbar" class="fixed w-full z-50 transition-all duration-300 bg-white/90 backdrop-blur-md border-b border-slate-200">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-16">
-                <!-- Logo -->
-                <div class="flex-shrink-0 flex items-center gap-2 cursor-pointer" onclick="window.scrollTo(0,0)">
-                    <i data-lucide="anchor" class="text-sky-500"></i>
-                    <span class="font-bold text-xl tracking-wider text-slate-800">風平浪靜 NagiAsu</span>
-                </div>
-                
-                <!-- Desktop Menu -->
-                <div class="hidden md:flex space-x-8 items-center">
-                    <a href="#about" class="text-slate-600 hover:text-sky-600 font-medium transition-colors">關於</a>
-                    <a href="#join" class="text-slate-600 hover:text-sky-600 font-medium transition-colors">加入</a>
-                    <a href="#features" class="text-slate-600 hover:text-sky-600 font-medium transition-colors">特色</a>
-                    <a href="#guide" class="text-slate-600 hover:text-sky-600 font-medium transition-colors">教學</a>
-                    <a href="#gallery" class="text-slate-600 hover:text-sky-600 font-medium transition-colors">作品</a>
-                    <a href="https://discord.gg/nagiasu" target="_blank" class="bg-[#5865F2] hover:bg-[#4752c4] text-white px-4 py-2 rounded font-bold flex items-center gap-2 transition-colors">
-                        <i data-lucide="message-circle" class="w-4 h-4"></i> Discord
-                    </a>
-                </div>
+  <!-- 搜尋視窗（Pagefind，按下才載入） -->
+  <div id="search-panel" class="hidden fixed inset-0 z-[60] bg-slate-900/40 backdrop-blur-sm p-4 pt-20">
+    <div class="max-w-2xl mx-auto bg-white rounded-2xl shadow-2xl p-4 max-h-[80vh] overflow-auto"><div id="search"></div></div>
+  </div>
 
-                <!-- Mobile Menu Button -->
-                <div class="md:hidden">
-                    <button id="mobile-menu-btn" class="text-slate-600 hover:text-sky-600 p-2">
-                        <i data-lucide="menu" class="w-6 h-6"></i>
+  <!-- Hero Section -->
+<section id="hero" class="relative h-screen min-h-[600px] flex items-center justify-center overflow-hidden">
+    <!-- Background Image with Overlay -->
+    <div class="absolute inset-0 z-0">
+        <!-- 替換為使用者上傳的 Minecraft 伺服器截圖 -->
+        <img src="img/banner2.png" 
+             alt="Minecraft 伺服器主城風景截圖" 
+             class="w-full h-full object-cover">
+        <!-- 降低 overlay 模糊度，以凸顯圖片細節 -->
+        <div class="absolute inset-0 bg-gradient-to-b from-sky-900/50 via-sky-800/30 to-sky-900/60"></div>
+    </div>
+
+    <div class="relative z-10 text-center px-4 max-w-4xl mx-auto">
+        <h1 class="font-pixel text-3xl md:text-5xl lg:text-6xl text-white mb-6 leading-relaxed drop-shadow-lg animate-float">
+            風平浪靜
+            <span class="block text-xl md:text-3xl mt-4 text-sky-200 font-sans font-bold tracking-widest">NagiAsu.xyz</span>
+        </h1>
+        <p class="text-base md:text-2xl text-slate-100 mb-10 font-light tracking-wide drop-shadow-md max-w-2xl mx-auto">
+            最原始的遊戲本質，忙碌之餘的放鬆體驗
+        </p>
+        
+        <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+            <button onclick="scrollToSection('join')" class="mc-btn bg-sky-500 hover:bg-sky-400 border-sky-700 text-white font-bold py-4 px-10 rounded-lg flex items-center gap-3 text-lg w-full sm:w-auto justify-center shadow-lg">
+                <svg
+  aria-hidden="true" class=" lucide lucide-circle-play"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M9 9.003a1 1 0 0 1 1.517-.859l4.997 2.997a1 1 0 0 1 0 1.718l-4.997 2.997A1 1 0 0 1 9 14.996z" />
+  <circle cx="12" cy="12" r="10" />
+</svg>
+                加入伺服器
+            </button>
+            <button onclick="scrollToSection('guide')" class="mc-btn bg-white hover:bg-slate-100 border-slate-300 text-slate-700 font-bold py-4 px-10 rounded-lg flex items-center gap-3 text-lg w-full sm:w-auto justify-center shadow-lg">
+                <svg
+  aria-hidden="true" class=" lucide lucide-book-open"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M12 5v16" />
+  <path d="M20.001 19A2 2 0 0022 17V5a2 2 0 00-1.999-2L16 3.002A5 5 0 0012 5a5 5 0 00-4-2H4a2 2 0 00-2 2v12a2 2 0 001.999 2H8a5 5 0 014 2 5 5 0 014-2z" />
+</svg>
+                新手教學
+            </button>
+        </div>
+    </div>
+    
+    <!-- Scroll Down Indicator -->
+    <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce text-white/80">
+        <svg
+  aria-hidden="true" class="w-10 h-10 lucide lucide-chevron-down"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="m6 9 6 6 6-6" />
+</svg>
+    </div>
+</section>
+
+<!-- About Section -->
+<section id="about" class="py-24 bg-white">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6">
+        <div class="text-center mb-16">
+            <span class="text-sky-500 font-bold tracking-widest text-sm uppercase">About Us</span>
+            <h2 class="text-3xl md:text-4xl font-bold text-slate-800 mt-2">關於風平浪靜</h2>
+            <div class="w-20 h-1 bg-sky-400 mx-auto mt-4 rounded-full"></div>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-12 items-center">
+            <div class="space-y-6">
+                <p class="text-lg text-slate-600 leading-relaxed">
+                    這裡是一個專注於<span class="font-bold text-sky-600">原味生存</span>的伺服器。沒有複雜的模組，沒有破壞平衡的課金道具，只有最純粹的 Minecraft 體驗。我們致力於打造一個讓建築師、冒險家都能安心遊玩的避風港。
+                </p>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
+                    <div class="flex items-center gap-3 p-3 bg-slate-50 rounded-lg">
+                        <svg
+  aria-hidden="true" class="text-sky-500 lucide lucide-server"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <rect width="20" height="8" x="2" y="2" rx="2" ry="2" />
+  <rect width="20" height="8" x="2" y="14" rx="2" ry="2" />
+  <line x1="6" x2="6.01" y1="6" y2="6" />
+  <line x1="6" x2="6.01" y1="18" y2="18" />
+</svg>
+                        <span class="text-slate-700 font-medium">自架主機 24H 營運</span>
+                    </div>
+                    <div class="flex items-center gap-3 p-3 bg-slate-50 rounded-lg">
+                        <svg
+  aria-hidden="true" class="text-emerald-500 lucide lucide-shield-check"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z" />
+  <path d="m9 12 2 2 4-4" />
+</svg>
+                        <span class="text-slate-700 font-medium">正版驗證 無白名單</span>
+                    </div>
+                    <div class="flex items-center gap-3 p-3 bg-slate-50 rounded-lg">
+                        <svg
+  aria-hidden="true" class="text-indigo-500 lucide lucide-message-square"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M22 17a2 2 0 0 1-2 2H6.828a2 2 0 0 0-1.414.586l-2.202 2.202A.71.71 0 0 1 2 21.286V5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2z" />
+</svg>
+                        <span class="text-slate-700 font-medium">遊戲與 Discord 互通</span>
+                    </div>
+                    <div class="flex items-center gap-3 p-3 bg-slate-50 rounded-lg">
+                        <svg
+  aria-hidden="true" class="text-rose-500 lucide lucide-heart-handshake"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M19.414 14.414C21 12.828 22 11.5 22 9.5a5.5 5.5 0 0 0-9.591-3.676.6.6 0 0 1-.818.001A5.5 5.5 0 0 0 2 9.5c0 2.3 1.5 4 3 5.5l5.535 5.362a2 2 0 0 0 2.879.052 2.12 2.12 0 0 0-.004-3 2.124 2.124 0 1 0 3-3 2.124 2.124 0 0 0 3.004 0 2 2 0 0 0 0-2.828l-1.881-1.882a2.41 2.41 0 0 0-3.409 0l-1.71 1.71a2 2 0 0 1-2.828 0 2 2 0 0 1 0-2.828l2.823-2.762" />
+</svg>
+                        <span class="text-slate-700 font-medium">無 P2W 公平環境</span>
+                    </div>
+                </div>
+            </div>
+            <div class="relative group">
+                <div class="absolute inset-0 bg-sky-200 rounded-2xl transform rotate-3 transition-transform group-hover:rotate-6"></div>
+                <img src="img/info1.png" 
+                     alt="Server Spawn" 
+                     class="relative rounded-2xl shadow-xl w-full h-64 md:h-80 object-cover transform transition-transform group-hover:-translate-y-2">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- How to Join -->
+<section id="join" class="py-24 bg-sky-50 border-y border-sky-100 relative overflow-hidden">
+    <!-- Decor -->
+    <div class="absolute top-0 right-0 -mr-20 -mt-20 w-64 h-64 bg-sky-100 rounded-full blur-3xl opacity-50"></div>
+    <div class="absolute bottom-0 left-0 -ml-20 -mb-20 w-64 h-64 bg-blue-100 rounded-full blur-3xl opacity-50"></div>
+
+    <div class="max-w-4xl mx-auto px-4 text-center relative z-10">
+        <h2 class="text-3xl font-bold text-slate-800 mb-8">如何加入</h2>
+        
+        <div class="bg-white p-8 md:p-12 rounded-2xl shadow-lg border border-slate-200 max-w-2xl mx-auto">
+            <div class="mb-8">
+                <p class="text-slate-500 text-sm mb-2 uppercase tracking-wider font-bold">伺服器IP</p>
+                <div class="group relative">
+                    <button onclick="copyIP()" class="w-full flex items-center justify-between bg-slate-100 p-5 rounded-xl cursor-pointer hover:bg-slate-200 transition-all border-2 border-transparent hover:border-sky-300">
+                        <code id="ip-text" class="text-2xl md:text-4xl font-bold text-slate-800 font-mono tracking-tight">nagiasu.xyz</code>
+                        <div class="bg-white p-2 rounded-lg shadow-sm text-slate-400 group-hover:text-sky-600 transition-colors">
+                            <svg
+  aria-hidden="true" class="w-6 h-6 lucide lucide-copy"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <rect width="14" height="14" x="8" y="8" rx="2" ry="2" />
+  <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" />
+</svg>
+                        </div>
                     </button>
+                    <!-- Tooltip/Toast placeholder -->
+                    <div id="copy-toast" class="absolute top-full left-1/2 transform -translate-x-1/2 mt-3 bg-emerald-600 text-white text-sm py-1 px-3 rounded shadow-lg opacity-0 transition-opacity pointer-events-none">
+                        已複製 IP！
+                    </div>
+                </div>
+                <p class="text-xs text-slate-400 mt-3">點擊上方 IP 即可複製</p>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4 text-left">
+                <div class="bg-sky-50 p-4 rounded-lg border border-sky-100">
+                    <span class="block text-sky-600 text-xs font-bold uppercase mb-1">遊戲版本</span>
+                    <span class="text-slate-800 font-bold text-lg">1.21.4</span>
+                    <p class="text-xs text-slate-500 mt-1">支援 1.20 以上版本進入</p>
+                </div>
+                <div class="bg-amber-50 p-4 rounded-lg border border-amber-100">
+                    <span class="block text-amber-600 text-xs font-bold uppercase mb-1">遊玩模式</span>
+                    <span class="text-slate-800 font-bold text-lg">Survival</span>
+                    <p class="text-xs text-slate-500 mt-1">正版帳號 • 原味生存</p>
                 </div>
             </div>
-        </div>
 
-        <!-- Mobile Menu Dropdown -->
-        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-slate-100 absolute w-full shadow-xl">
-            <div class="px-4 pt-2 pb-6 space-y-2">
-                <a href="#about" class="block px-3 py-3 rounded-md text-base font-medium text-slate-600 hover:bg-sky-50 hover:text-sky-600">關於</a>
-                <a href="#join" class="block px-3 py-3 rounded-md text-base font-medium text-slate-600 hover:bg-sky-50 hover:text-sky-600">加入</a>
-                <a href="#features" class="block px-3 py-3 rounded-md text-base font-medium text-slate-600 hover:bg-sky-50 hover:text-sky-600">特色</a>
-                <a href="#guide" class="block px-3 py-3 rounded-md text-base font-medium text-slate-600 hover:bg-sky-50 hover:text-sky-600">教學</a>
-                <a href="#gallery" class="block px-3 py-3 rounded-md text-base font-medium text-slate-600 hover:bg-sky-50 hover:text-sky-600">作品</a>
-                <a href="https://discord.gg/nagiasu" target="_blank" class="block px-3 py-3 rounded-md text-base font-medium text-[#5865F2] bg-slate-50 mt-2">加入 Discord</a>
+            <div class="mt-8 border-t border-slate-100 pt-6">
+                <a href="#guide" class="inline-flex items-center text-sky-600 hover:text-sky-800 font-bold hover:underline transition-colors">
+                    查看詳細連線教學 <svg
+  aria-hidden="true" class="ml-1 w-4 h-4 lucide lucide-arrow-right"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M5 12h14" />
+  <path d="m12 5 7 7-7 7" />
+</svg>
+                </a>
             </div>
         </div>
-    </nav>
+    </div>
+</section>
 
-    <!-- Hero Section -->
-    <section id="hero" class="relative h-screen min-h-[600px] flex items-center justify-center overflow-hidden">
-        <!-- Background Image with Overlay -->
-        <div class="absolute inset-0 z-0">
-            <!-- 替換為使用者上傳的 Minecraft 伺服器截圖 -->
-            <img src="img/banner2.png" 
-                 alt="Minecraft 伺服器主城風景截圖" 
-                 class="w-full h-full object-cover">
-            <!-- 降低 overlay 模糊度，以凸顯圖片細節 -->
-            <div class="absolute inset-0 bg-gradient-to-b from-sky-900/50 via-sky-800/30 to-sky-900/60"></div>
+<!-- Features Grid -->
+<section id="features" class="py-24 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6">
+        <div class="text-center mb-16">
+            <h2 class="text-3xl md:text-4xl font-bold text-slate-800">特色系統</h2>
+            <p class="text-slate-500 mt-4 text-lg">簡單，但不無聊的功能增強</p>
         </div>
 
-        <div class="relative z-10 text-center px-4 max-w-4xl mx-auto">
-            <h1 class="font-pixel text-3xl md:text-5xl lg:text-6xl text-white mb-6 leading-relaxed drop-shadow-lg animate-float">
-                風平浪靜
-                <span class="block text-xl md:text-3xl mt-4 text-sky-200 font-sans font-bold tracking-widest">NagiAsu.xyz</span>
-            </h1>
-            <p class="text-base md:text-2xl text-slate-100 mb-10 font-light tracking-wide drop-shadow-md max-w-2xl mx-auto">
-                最原始的遊戲本質，忙碌之餘的放鬆體驗
-            </p>
-            
-            <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
-                <button onclick="scrollToSection('join')" class="mc-btn bg-sky-500 hover:bg-sky-400 border-sky-700 text-white font-bold py-4 px-10 rounded-lg flex items-center gap-3 text-lg w-full sm:w-auto justify-center shadow-lg">
-                    <i data-lucide="play-circle"></i>
-                    加入伺服器
-                </button>
-                <button onclick="scrollToSection('guide')" class="mc-btn bg-white hover:bg-slate-100 border-slate-300 text-slate-700 font-bold py-4 px-10 rounded-lg flex items-center gap-3 text-lg w-full sm:w-auto justify-center shadow-lg">
-                    <i data-lucide="book-open"></i>
-                    新手教學
-                </button>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Card 1 -->
+            <div class="bg-slate-50 p-8 rounded-xl border border-slate-100 hover:shadow-lg transition-all hover:-translate-y-1 hover:border-sky-200 group">
+                <div class="w-14 h-14 bg-white rounded-lg shadow-sm flex items-center justify-center text-sky-500 mb-6 group-hover:bg-sky-500 group-hover:text-white transition-colors">
+                    <svg
+  aria-hidden="true" class="w-8 h-8 lucide lucide-image"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <rect width="18" height="18" x="3" y="3" rx="2" ry="2" />
+  <circle cx="9" cy="9" r="2" />
+  <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21" />
+</svg>
+                </div>
+                <h3 class="text-xl font-bold text-slate-800 mb-3">畫作系統</h3>
+                <p class="text-slate-600 leading-relaxed">支援將遊戲內畫好的地圖畫同步到各分流展示，打造獨一無二的畫廊與裝飾。</p>
             </div>
+
+            <!-- Card 2 -->
+            <div class="bg-slate-50 p-8 rounded-xl border border-slate-100 hover:shadow-lg transition-all hover:-translate-y-1 hover:border-sky-200 group">
+                <div class="w-14 h-14 bg-white rounded-lg shadow-sm flex items-center justify-center text-sky-500 mb-6 group-hover:bg-sky-500 group-hover:text-white transition-colors">
+                    <svg
+  aria-hidden="true" class="w-8 h-8 lucide lucide-smile"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M15 10V9" />
+  <path d="M16.472 15a6 6 0 01-8.943 0" />
+  <path d="M9 10V9" />
+  <circle cx="12" cy="12" r="10" />
+</svg>
+                </div>
+                <h3 class="text-xl font-bold text-slate-800 mb-3">人物動作/頭顱</h3>
+                <p class="text-slate-600 leading-relaxed">更多樣的社交動作（坐下、躺下），以及可收集的玩家頭顱裝飾。</p>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="bg-slate-50 p-8 rounded-xl border border-slate-100 hover:shadow-lg transition-all hover:-translate-y-1 hover:border-sky-200 group">
+                <div class="w-14 h-14 bg-white rounded-lg shadow-sm flex items-center justify-center text-sky-500 mb-6 group-hover:bg-sky-500 group-hover:text-white transition-colors">
+                    <svg
+  aria-hidden="true" class="w-8 h-8 lucide lucide-swords"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="m13 19 6-6" />
+  <path d="M14.5 17.5 3.586 6.586A2 2 0 013 5.172V3h2.172a2 2 0 011.414.586L17.5 14.5" />
+  <path d="m14.828 6.172 2.586-2.586A2 2 0 0118.828 3H21v2.172a2 2 0 01-.586 1.414l-2.586 2.586" />
+  <path d="m16 16 4 4" />
+  <path d="m19 21 2-2" />
+  <path d="m5 14 4 4" />
+  <path d="m5 21-2-2" />
+  <path d="M7.5 16.5 4 20" />
+</svg>
+                </div>
+                <h3 class="text-xl font-bold text-slate-800 mb-3">PVP 開關</h3>
+                <p class="text-slate-600 leading-relaxed">輸入 <code class="bg-slate-200 px-1 rounded text-sm">/pvp</code> 自由切換戰鬥狀態（資源服強制開啟），和平建築或熱血對戰由你決定。</p>
+            </div>
+
+            <!-- Card 4 -->
+            <div class="bg-slate-50 p-8 rounded-xl border border-slate-100 hover:shadow-lg transition-all hover:-translate-y-1 hover:border-sky-200 group">
+                <div class="w-14 h-14 bg-white rounded-lg shadow-sm flex items-center justify-center text-sky-500 mb-6 group-hover:bg-sky-500 group-hover:text-white transition-colors">
+                    <svg
+  aria-hidden="true" class="w-8 h-8 lucide lucide-dices"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <rect width="12" height="12" x="2" y="10" rx="2" ry="2" />
+  <path d="m17.92 14 3.5-3.5a2.24 2.24 0 0 0 0-3l-5-4.92a2.24 2.24 0 0 0-3 0L10 6" />
+  <path d="M6 18h.01" />
+  <path d="M10 14h.01" />
+  <path d="M15 6h.01" />
+  <path d="M18 9h.01" />
+</svg>
+                </div>
+                <h3 class="text-xl font-bold text-slate-800 mb-3">互動指令</h3>
+                <p class="text-slate-600 leading-relaxed">擲骰子 <code class="bg-slate-200 px-1 rounded text-sm">/roll</code> 決定命運，或是簡單好記的快捷選單。</p>
+            </div>
+
+            <!-- Card 5 -->
+            <div class="bg-slate-50 p-8 rounded-xl border border-slate-100 hover:shadow-lg transition-all hover:-translate-y-1 hover:border-sky-200 group">
+                <div class="w-14 h-14 bg-white rounded-lg shadow-sm flex items-center justify-center text-sky-500 mb-6 group-hover:bg-sky-500 group-hover:text-white transition-colors">
+                    <svg
+  aria-hidden="true" class="w-8 h-8 lucide lucide-pen-tool"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="m18 13-.654-4.736a4 4 0 00-2.756-3.266l-9.163-2.9a2 2 0 00-2.017.493l-.82.819a2 2 0 00-.492 2.017l2.9 9.163a4 4 0 003.266 2.756L13 18" />
+  <path d="M18.648 12.352a1.205 1.205 0 011.704 0l1.296 1.296a1.205 1.205 0 010 1.704l-6.296 6.296a1.205 1.205 0 01-1.704 0l-1.296-1.296a1.205 1.205 0 010-1.704z" />
+  <path d="m3 3 6.586 6.586" />
+  <circle cx="11" cy="11" r="2" />
+</svg>
+                </div>
+                <h3 class="text-xl font-bold text-slate-800 mb-3">物品署名</h3>
+                <p class="text-slate-600 leading-relaxed">在你的裝備或作品上簽名，留下你的傳說與品牌。</p>
+            </div>
+
+            <!-- Card 6 -->
+            <div class="bg-slate-50 p-8 rounded-xl border border-slate-100 hover:shadow-lg transition-all hover:-translate-y-1 hover:border-sky-200 group">
+                <div class="w-14 h-14 bg-white rounded-lg shadow-sm flex items-center justify-center text-sky-500 mb-6 group-hover:bg-sky-500 group-hover:text-white transition-colors">
+                    <svg
+  aria-hidden="true" class="w-8 h-8 lucide lucide-map"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M14.106 5.553a2 2 0 0 0 1.788 0l3.659-1.83A1 1 0 0 1 21 4.619v12.764a1 1 0 0 1-.553.894l-4.553 2.277a2 2 0 0 1-1.788 0l-4.212-2.106a2 2 0 0 0-1.788 0l-3.659 1.83A1 1 0 0 1 3 19.381V6.618a1 1 0 0 1 .553-.894l4.553-2.277a2 2 0 0 1 1.788 0z" />
+  <path d="M15 5.764v15" />
+  <path d="M9 3.236v15" />
+</svg>
+                </div>
+                <h3 class="text-xl font-bold text-slate-800 mb-3">隨機傳送</h3>
+                <p class="text-slate-600 leading-relaxed">透過 <code class="bg-slate-200 px-1 rounded text-sm">/rtp</code> 快速到達未知的荒野，展開新的冒險。</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Newbie Guide Links -->
+<section id="guide" class="py-24 bg-gradient-to-br from-slate-900 via-slate-800 to-sky-900 text-white">
+    <div class="max-w-6xl mx-auto px-4">
+        <div class="flex flex-col md:flex-row justify-between items-end mb-12 border-b border-white/10 pb-6">
+            <div>
+                <h2 class="text-3xl font-bold mb-2">新手指南</h2>
+                <p class="text-sky-200">初次來到風平浪靜？這裡有你需要的一切。</p>
+            </div>
+            <a href="/newbie/" class="hidden md:inline-flex items-center gap-2 text-sky-300 hover:text-white transition-colors mt-4 md:mt-0 font-medium">
+                <svg
+  aria-hidden="true" class="w-5 h-5 lucide lucide-external-link"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M15 3h6v6" />
+  <path d="M10 14 21 3" />
+  <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+</svg> 查看完整 Wiki
+            </a>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
+            <!-- Guide Item -->
+            <a href="/setting/" class="block bg-white/5 hover:bg-white/10 backdrop-blur-sm p-6 rounded-lg border border-white/5 transition-all group">
+                <div class="flex justify-between items-center">
+                    <span class="font-medium text-lg">伺服器設定與分流</span>
+                    <svg
+  aria-hidden="true" class="text-sky-400 group-hover:text-white transition-colors lucide lucide-chevron-right"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="m9 18 6-6-6-6" />
+</svg>
+                </div>
+                <p class="text-slate-400 text-sm mt-2">了解世界觀與分流機制</p>
+            </a>
+
+            <!-- Guide Item -->
+            <a href="/feature/command_table/" class="block bg-white/5 hover:bg-white/10 backdrop-blur-sm p-6 rounded-lg border border-white/5 transition-all group">
+                <div class="flex justify-between items-center">
+                    <span class="font-medium text-lg">指令與功能大全</span>
+                    <svg
+  aria-hidden="true" class="text-sky-400 group-hover:text-white transition-colors lucide lucide-chevron-right"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="m9 18 6-6-6-6" />
+</svg>
+                </div>
+                <p class="text-slate-400 text-sm mt-2">所有好用的指令都在這</p>
+            </a>
+
+            <!-- Guide Item -->
+            <a href="/server/Lobby/" class="block bg-white/5 hover:bg-white/10 backdrop-blur-sm p-6 rounded-lg border border-white/5 transition-all group">
+                <div class="flex justify-between items-center">
+                    <span class="font-medium text-lg">大廳公共設施</span>
+                    <svg
+  aria-hidden="true" class="text-sky-400 group-hover:text-white transition-colors lucide lucide-chevron-right"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="m9 18 6-6-6-6" />
+</svg>
+                </div>
+                <p class="text-slate-400 text-sm mt-2">商店、傳送門、玩家共用設施</p>
+            </a>
+
+            <!-- Guide Item -->
+            <a href="/dungeon/intro" class="block bg-white/5 hover:bg-white/10 backdrop-blur-sm p-6 rounded-lg border border-white/5 transition-all group">
+                <div class="flex justify-between items-center">
+                    <span class="font-medium text-lg">副本服冒險指南</span>
+                    <svg
+  aria-hidden="true" class="text-sky-400 group-hover:text-white transition-colors lucide lucide-chevron-right"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="m9 18 6-6-6-6" />
+</svg>
+                </div>
+                <p class="text-slate-400 text-sm mt-2">挑戰副本賺取遊戲幣</p>
+            </a>
+
+            <!-- Guide Item -->
+            <a href="/rule/" class="block bg-white/5 hover:bg-white/10 backdrop-blur-sm p-6 rounded-lg border border-white/5 transition-all group">
+                <div class="flex justify-between items-center">
+                    <span class="font-medium text-lg">使用者服務條款</span>
+                    <svg
+  aria-hidden="true" class="text-sky-400 group-hover:text-white transition-colors lucide lucide-chevron-right"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="m9 18 6-6-6-6" />
+</svg>
+                </div>
+                <p class="text-slate-400 text-sm mt-2">伺服與玩家的規範</p>
+            </a>
+
+            <!-- Guide Item -->
+            <a href="/apply/report/" class="block bg-white/5 hover:bg-white/10 backdrop-blur-sm p-6 rounded-lg border border-white/5 transition-all group">
+                <div class="flex justify-between items-center">
+                    <span class="font-medium text-lg">事務申請</span>
+                    <svg
+  aria-hidden="true" class="text-sky-400 group-hover:text-white transition-colors lucide lucide-chevron-right"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="m9 18 6-6-6-6" />
+</svg>
+                </div>
+                <p class="text-slate-400 text-sm mt-2">舉報、回報 Bug 或申請補助</p>
+            </a>
         </div>
         
-        <!-- Scroll Down Indicator -->
-        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce text-white/80">
-            <i data-lucide="chevron-down" class="w-10 h-10"></i>
-        </div>
-    </section>
-
-    <!-- About Section -->
-    <section id="about" class="py-24 bg-white">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6">
-            <div class="text-center mb-16">
-                <span class="text-sky-500 font-bold tracking-widest text-sm uppercase">About Us</span>
-                <h2 class="text-3xl md:text-4xl font-bold text-slate-800 mt-2">關於風平浪靜</h2>
-                <div class="w-20 h-1 bg-sky-400 mx-auto mt-4 rounded-full"></div>
-            </div>
-
-            <div class="grid md:grid-cols-2 gap-12 items-center">
-                <div class="space-y-6">
-                    <p class="text-lg text-slate-600 leading-relaxed">
-                        這裡是一個專注於<span class="font-bold text-sky-600">原味生存</span>的伺服器。沒有複雜的模組，沒有破壞平衡的課金道具，只有最純粹的 Minecraft 體驗。我們致力於打造一個讓建築師、冒險家都能安心遊玩的避風港。
-                    </p>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
-                        <div class="flex items-center gap-3 p-3 bg-slate-50 rounded-lg">
-                            <i data-lucide="server" class="text-sky-500"></i>
-                            <span class="text-slate-700 font-medium">自架主機 24H 營運</span>
-                        </div>
-                        <div class="flex items-center gap-3 p-3 bg-slate-50 rounded-lg">
-                            <i data-lucide="shield-check" class="text-emerald-500"></i>
-                            <span class="text-slate-700 font-medium">正版驗證 無白名單</span>
-                        </div>
-                        <div class="flex items-center gap-3 p-3 bg-slate-50 rounded-lg">
-                            <i data-lucide="message-square" class="text-indigo-500"></i>
-                            <span class="text-slate-700 font-medium">遊戲與 Discord 互通</span>
-                        </div>
-                        <div class="flex items-center gap-3 p-3 bg-slate-50 rounded-lg">
-                            <i data-lucide="heart-handshake" class="text-rose-500"></i>
-                            <span class="text-slate-700 font-medium">無 P2W 公平環境</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="relative group">
-                    <div class="absolute inset-0 bg-sky-200 rounded-2xl transform rotate-3 transition-transform group-hover:rotate-6"></div>
-                    <img src="img/info1.png" 
-                         alt="Server Spawn" 
-                         class="relative rounded-2xl shadow-xl w-full h-64 md:h-80 object-cover transform transition-transform group-hover:-translate-y-2">
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- How to Join -->
-    <section id="join" class="py-24 bg-sky-50 border-y border-sky-100 relative overflow-hidden">
-        <!-- Decor -->
-        <div class="absolute top-0 right-0 -mr-20 -mt-20 w-64 h-64 bg-sky-100 rounded-full blur-3xl opacity-50"></div>
-        <div class="absolute bottom-0 left-0 -ml-20 -mb-20 w-64 h-64 bg-blue-100 rounded-full blur-3xl opacity-50"></div>
-
-        <div class="max-w-4xl mx-auto px-4 text-center relative z-10">
-            <h2 class="text-3xl font-bold text-slate-800 mb-8">如何加入</h2>
-            
-            <div class="bg-white p-8 md:p-12 rounded-2xl shadow-lg border border-slate-200 max-w-2xl mx-auto">
-                <div class="mb-8">
-                    <p class="text-slate-500 text-sm mb-2 uppercase tracking-wider font-bold">伺服器IP</p>
-                    <div class="group relative">
-                        <button onclick="copyIP()" class="w-full flex items-center justify-between bg-slate-100 p-5 rounded-xl cursor-pointer hover:bg-slate-200 transition-all border-2 border-transparent hover:border-sky-300">
-                            <code id="ip-text" class="text-2xl md:text-4xl font-bold text-slate-800 font-mono tracking-tight">nagiasu.xyz</code>
-                            <div class="bg-white p-2 rounded-lg shadow-sm text-slate-400 group-hover:text-sky-600 transition-colors">
-                                <i data-lucide="copy" class="w-6 h-6"></i>
-                            </div>
-                        </button>
-                        <!-- Tooltip/Toast placeholder -->
-                        <div id="copy-toast" class="absolute top-full left-1/2 transform -translate-x-1/2 mt-3 bg-emerald-600 text-white text-sm py-1 px-3 rounded shadow-lg opacity-0 transition-opacity pointer-events-none">
-                            已複製 IP！
-                        </div>
-                    </div>
-                    <p class="text-xs text-slate-400 mt-3">點擊上方 IP 即可複製</p>
-                </div>
-
-                <div class="grid grid-cols-2 gap-4 text-left">
-                    <div class="bg-sky-50 p-4 rounded-lg border border-sky-100">
-                        <span class="block text-sky-600 text-xs font-bold uppercase mb-1">遊戲版本</span>
-                        <span class="text-slate-800 font-bold text-lg">1.21.4</span>
-                        <p class="text-xs text-slate-500 mt-1">支援 1.20 以上版本進入</p>
-                    </div>
-                    <div class="bg-amber-50 p-4 rounded-lg border border-amber-100">
-                        <span class="block text-amber-600 text-xs font-bold uppercase mb-1">遊玩模式</span>
-                        <span class="text-slate-800 font-bold text-lg">Survival</span>
-                        <p class="text-xs text-slate-500 mt-1">正版帳號 • 原味生存</p>
-                    </div>
-                </div>
-
-                <div class="mt-8 border-t border-slate-100 pt-6">
-                    <a href="#guide" class="inline-flex items-center text-sky-600 hover:text-sky-800 font-bold hover:underline transition-colors">
-                        查看詳細連線教學 <i data-lucide="arrow-right" class="ml-1 w-4 h-4"></i>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Features Grid -->
-    <section id="features" class="py-24 bg-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6">
-            <div class="text-center mb-16">
-                <h2 class="text-3xl md:text-4xl font-bold text-slate-800">特色系統</h2>
-                <p class="text-slate-500 mt-4 text-lg">簡單，但不無聊的功能增強</p>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- Card 1 -->
-                <div class="bg-slate-50 p-8 rounded-xl border border-slate-100 hover:shadow-lg transition-all hover:-translate-y-1 hover:border-sky-200 group">
-                    <div class="w-14 h-14 bg-white rounded-lg shadow-sm flex items-center justify-center text-sky-500 mb-6 group-hover:bg-sky-500 group-hover:text-white transition-colors">
-                        <i data-lucide="image" class="w-8 h-8"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-slate-800 mb-3">畫作系統</h3>
-                    <p class="text-slate-600 leading-relaxed">支援將遊戲內畫好的地圖畫同步到各分流展示，打造獨一無二的畫廊與裝飾。</p>
-                </div>
-
-                <!-- Card 2 -->
-                <div class="bg-slate-50 p-8 rounded-xl border border-slate-100 hover:shadow-lg transition-all hover:-translate-y-1 hover:border-sky-200 group">
-                    <div class="w-14 h-14 bg-white rounded-lg shadow-sm flex items-center justify-center text-sky-500 mb-6 group-hover:bg-sky-500 group-hover:text-white transition-colors">
-                        <i data-lucide="smile" class="w-8 h-8"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-slate-800 mb-3">人物動作/頭顱</h3>
-                    <p class="text-slate-600 leading-relaxed">更多樣的社交動作（坐下、躺下），以及可收集的玩家頭顱裝飾。</p>
-                </div>
-
-                <!-- Card 3 -->
-                <div class="bg-slate-50 p-8 rounded-xl border border-slate-100 hover:shadow-lg transition-all hover:-translate-y-1 hover:border-sky-200 group">
-                    <div class="w-14 h-14 bg-white rounded-lg shadow-sm flex items-center justify-center text-sky-500 mb-6 group-hover:bg-sky-500 group-hover:text-white transition-colors">
-                        <i data-lucide="swords" class="w-8 h-8"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-slate-800 mb-3">PVP 開關</h3>
-                    <p class="text-slate-600 leading-relaxed">輸入 <code class="bg-slate-200 px-1 rounded text-sm">/pvp</code> 自由切換戰鬥狀態（資源服強制開啟），和平建築或熱血對戰由你決定。</p>
-                </div>
-
-                <!-- Card 4 -->
-                <div class="bg-slate-50 p-8 rounded-xl border border-slate-100 hover:shadow-lg transition-all hover:-translate-y-1 hover:border-sky-200 group">
-                    <div class="w-14 h-14 bg-white rounded-lg shadow-sm flex items-center justify-center text-sky-500 mb-6 group-hover:bg-sky-500 group-hover:text-white transition-colors">
-                        <i data-lucide="dices" class="w-8 h-8"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-slate-800 mb-3">互動指令</h3>
-                    <p class="text-slate-600 leading-relaxed">擲骰子 <code class="bg-slate-200 px-1 rounded text-sm">/roll</code> 決定命運，或是簡單好記的快捷選單。</p>
-                </div>
-
-                <!-- Card 5 -->
-                <div class="bg-slate-50 p-8 rounded-xl border border-slate-100 hover:shadow-lg transition-all hover:-translate-y-1 hover:border-sky-200 group">
-                    <div class="w-14 h-14 bg-white rounded-lg shadow-sm flex items-center justify-center text-sky-500 mb-6 group-hover:bg-sky-500 group-hover:text-white transition-colors">
-                        <i data-lucide="pen-tool" class="w-8 h-8"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-slate-800 mb-3">物品署名</h3>
-                    <p class="text-slate-600 leading-relaxed">在你的裝備或作品上簽名，留下你的傳說與品牌。</p>
-                </div>
-
-                <!-- Card 6 -->
-                <div class="bg-slate-50 p-8 rounded-xl border border-slate-100 hover:shadow-lg transition-all hover:-translate-y-1 hover:border-sky-200 group">
-                    <div class="w-14 h-14 bg-white rounded-lg shadow-sm flex items-center justify-center text-sky-500 mb-6 group-hover:bg-sky-500 group-hover:text-white transition-colors">
-                        <i data-lucide="map" class="w-8 h-8"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-slate-800 mb-3">隨機傳送</h3>
-                    <p class="text-slate-600 leading-relaxed">透過 <code class="bg-slate-200 px-1 rounded text-sm">/rtp</code> 快速到達未知的荒野，展開新的冒險。</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Newbie Guide Links -->
-    <section id="guide" class="py-24 bg-gradient-to-br from-slate-900 via-slate-800 to-sky-900 text-white">
-        <div class="max-w-6xl mx-auto px-4">
-            <div class="flex flex-col md:flex-row justify-between items-end mb-12 border-b border-white/10 pb-6">
-                <div>
-                    <h2 class="text-3xl font-bold mb-2">新手指南</h2>
-                    <p class="text-sky-200">初次來到風平浪靜？這裡有你需要的一切。</p>
-                </div>
-                <a href="https://www.nagiasu.xyz/newbie/" class="hidden md:inline-flex items-center gap-2 text-sky-300 hover:text-white transition-colors mt-4 md:mt-0 font-medium">
-                    <i data-lucide="external-link" class="w-5 h-5"></i> 查看完整 Wiki
-                </a>
-            </div>
-
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
-                <!-- Guide Item -->
-                <a href="https://www.nagiasu.xyz/setting/" class="block bg-white/5 hover:bg-white/10 backdrop-blur-sm p-6 rounded-lg border border-white/5 transition-all group">
-                    <div class="flex justify-between items-center">
-                        <span class="font-medium text-lg">伺服器設定與分流</span>
-                        <i data-lucide="chevron-right" class="text-sky-400 group-hover:text-white transition-colors"></i>
-                    </div>
-                    <p class="text-slate-400 text-sm mt-2">了解世界觀與分流機制</p>
-                </a>
-
-                <!-- Guide Item -->
-                <a href="https://www.nagiasu.xyz/feature/command_table/" class="block bg-white/5 hover:bg-white/10 backdrop-blur-sm p-6 rounded-lg border border-white/5 transition-all group">
-                    <div class="flex justify-between items-center">
-                        <span class="font-medium text-lg">指令與功能大全</span>
-                        <i data-lucide="chevron-right" class="text-sky-400 group-hover:text-white transition-colors"></i>
-                    </div>
-                    <p class="text-slate-400 text-sm mt-2">所有好用的指令都在這</p>
-                </a>
-
-                <!-- Guide Item -->
-                <a href="https://www.nagiasu.xyz/server/Lobby/" class="block bg-white/5 hover:bg-white/10 backdrop-blur-sm p-6 rounded-lg border border-white/5 transition-all group">
-                    <div class="flex justify-between items-center">
-                        <span class="font-medium text-lg">大廳公共設施</span>
-                        <i data-lucide="chevron-right" class="text-sky-400 group-hover:text-white transition-colors"></i>
-                    </div>
-                    <p class="text-slate-400 text-sm mt-2">商店、傳送門、玩家共用設施</p>
-                </a>
-
-                <!-- Guide Item -->
-                <a href="https://www.nagiasu.xyz/dungeon/intro" class="block bg-white/5 hover:bg-white/10 backdrop-blur-sm p-6 rounded-lg border border-white/5 transition-all group">
-                    <div class="flex justify-between items-center">
-                        <span class="font-medium text-lg">副本服冒險指南</span>
-                        <i data-lucide="chevron-right" class="text-sky-400 group-hover:text-white transition-colors"></i>
-                    </div>
-                    <p class="text-slate-400 text-sm mt-2">挑戰副本賺取遊戲幣</p>
-                </a>
-
-                <!-- Guide Item -->
-                <a href="https://www.nagiasu.xyz/rule/" class="block bg-white/5 hover:bg-white/10 backdrop-blur-sm p-6 rounded-lg border border-white/5 transition-all group">
-                    <div class="flex justify-between items-center">
-                        <span class="font-medium text-lg">使用者服務條款</span>
-                        <i data-lucide="chevron-right" class="text-sky-400 group-hover:text-white transition-colors"></i>
-                    </div>
-                    <p class="text-slate-400 text-sm mt-2">伺服與玩家的規範</p>
-                </a>
-
-                <!-- Guide Item -->
-                <a href="https://www.nagiasu.xyz/apply/report/" class="block bg-white/5 hover:bg-white/10 backdrop-blur-sm p-6 rounded-lg border border-white/5 transition-all group">
-                    <div class="flex justify-between items-center">
-                        <span class="font-medium text-lg">事務申請</span>
-                        <i data-lucide="chevron-right" class="text-sky-400 group-hover:text-white transition-colors"></i>
-                    </div>
-                    <p class="text-slate-400 text-sm mt-2">舉報、回報 Bug 或申請補助</p>
-                </a>
-            </div>
-            
-            <div class="mt-8 text-center md:hidden">
-                <a href="https://www.nagiasu.xyz/newbie/" class="inline-flex items-center gap-2 text-sky-300 hover:text-white transition-colors">
-                    查看完整 Wiki <i data-lucide="arrow-right" class="w-4 h-4"></i>
-                </a>
-            </div>
-        </div>
-    </section>
-
-    <!-- Gallery Section -->
-    <section id="gallery" class="py-24 bg-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6">
-            <div class="text-center mb-12">
-                <h2 class="text-3xl font-bold text-slate-800">玩家足跡</h2>
-                <p class="text-slate-500 mt-2">我們在風平浪靜留下的回憶</p>
-            </div>
-
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 auto-rows-[200px]">
-                <!-- Image 1 -->
-                <div class="group relative overflow-hidden rounded-xl cursor-pointer">
-                    <img src="img/banner.png" 
-                         alt="Gallery" 
-                         class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
-                    <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                        <span class="text-white font-bold tracking-widest">主城大廳</span>
-                    </div>
-                </div>
-                
-                <!-- Image 2 -->
-                <div class="group relative overflow-hidden rounded-xl cursor-pointer">
-                    <img src="img/player2.png" 
-                         alt="Gallery" 
-                         class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
-                    <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                        <span class="text-white font-bold tracking-widest">玩家市集</span>
-                    </div>
-                </div>
-
-                <!-- Image 3 (Wide) -->
-                <div class="group relative overflow-hidden rounded-xl cursor-pointer md:col-span-1 sm:col-span-2">
-                    <img src="img/player3.png" 
-                         alt="Gallery" 
-                         class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
-                    <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                        <span class="text-white font-bold tracking-widest">生存建築</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Quick Links / Docs -->
-    <section class="py-16 bg-slate-50 border-t border-slate-200">
-        <div class="max-w-4xl mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
-            <a href="https://www.nagiasu.xyz/rule/" class="p-8 bg-white rounded-xl shadow-sm hover:shadow-md transition-all border border-slate-100 hover:-translate-y-1 group">
-                <div class="w-12 h-12 bg-rose-100 text-rose-500 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
-                    <i data-lucide="book" class="w-6 h-6"></i>
-                </div>
-                <h3 class="font-bold text-slate-800 text-lg">查看所有規則</h3>
-                <p class="text-sm text-slate-500 mt-2">遵守規範，維護良好環境</p>
-            </a>
-            
-            <a href="https://www.nagiasu.xyz/feature/command_table/" class="p-8 bg-white rounded-xl shadow-sm hover:shadow-md transition-all border border-slate-100 hover:-translate-y-1 group">
-                <div class="w-12 h-12 bg-amber-100 text-amber-500 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
-                    <i data-lucide="terminal" class="w-6 h-6"></i>
-                </div>
-                <h3 class="font-bold text-slate-800 text-lg">指令列表</h3>
-                <p class="text-sm text-slate-500 mt-2">查詢常用的伺服器指令</p>
-            </a>
-            
-            <a href="https://www.nagiasu.xyz/newbie/" class="p-8 bg-white rounded-xl shadow-sm hover:shadow-md transition-all border border-slate-100 hover:-translate-y-1 group">
-                <div class="w-12 h-12 bg-sky-100 text-sky-500 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
-                    <i data-lucide="users" class="w-6 h-6"></i>
-                </div>
-                <h3 class="font-bold text-slate-800 text-lg">完整新手教學</h3>
-                <p class="text-sm text-slate-500 mt-2">從零開始的生存指南</p>
+        <div class="mt-8 text-center md:hidden">
+            <a href="/newbie/" class="inline-flex items-center gap-2 text-sky-300 hover:text-white transition-colors">
+                查看完整 Wiki <svg
+  aria-hidden="true" class="w-4 h-4 lucide lucide-arrow-right"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M5 12h14" />
+  <path d="m12 5 7 7-7 7" />
+</svg>
             </a>
         </div>
-    </section>
+    </div>
+</section>
 
-    <!-- Footer -->
-    <footer class="bg-slate-900 text-slate-300 py-16 border-t border-slate-800">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 flex flex-col items-center text-center">
+<!-- Gallery Section -->
+<section id="gallery" class="py-24 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl font-bold text-slate-800">玩家足跡</h2>
+            <p class="text-slate-500 mt-2">我們在風平浪靜留下的回憶</p>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 auto-rows-[200px]">
+            <!-- Image 1 -->
+            <div class="group relative overflow-hidden rounded-xl cursor-pointer">
+                <img src="img/banner.png" 
+                     alt="Gallery" 
+                     class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                    <span class="text-white font-bold tracking-widest">主城大廳</span>
+                </div>
+            </div>
             
-            <!-- Discord CTA -->
-            <div class="mb-12 bg-slate-800/50 p-8 rounded-2xl w-full max-w-2xl border border-slate-700 backdrop-blur-sm">
-                <h3 class="text-2xl font-bold text-white mb-4">加入我們的社群</h3>
-                <p class="mb-6 text-slate-400">獲取最新公告、尋找隊友、或只是閒聊。</p>
-                <div class="flex flex-col sm:flex-row items-center justify-center gap-6">
-                    <a href="https://discord.gg/nagiasu" target="_blank" class="mc-btn bg-[#5865F2] hover:brightness-110 border-[#4752c4] text-white px-8 py-3 rounded-lg font-bold flex items-center gap-2 w-full sm:w-auto justify-center">
-                        <i data-lucide="message-circle" class="w-5 h-5"></i>
-                        加入 Discord
-                    </a>
+            <!-- Image 2 -->
+            <div class="group relative overflow-hidden rounded-xl cursor-pointer">
+                <img src="img/player2.png" 
+                     alt="Gallery" 
+                     class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                    <span class="text-white font-bold tracking-widest">玩家市集</span>
                 </div>
             </div>
 
-            <div class="flex items-center gap-2 mb-8">
-                <i data-lucide="anchor" class="text-sky-500 w-6 h-6"></i>
-                <span class="font-bold text-2xl text-white tracking-wider">風平浪靜 NagiAsu.xyz</span>
+            <!-- Image 3 (Wide) -->
+            <div class="group relative overflow-hidden rounded-xl cursor-pointer md:col-span-1 sm:col-span-2">
+                <img src="img/player3.png" 
+                     alt="Gallery" 
+                     class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                    <span class="text-white font-bold tracking-widest">生存建築</span>
+                </div>
             </div>
-
-            <div class="flex flex-wrap justify-center gap-x-8 gap-y-4 mb-8 text-sm font-medium">
-                <a href="#hero" class="hover:text-sky-400 transition-colors">首頁</a>
-                <a href="#about" class="hover:text-sky-400 transition-colors">關於</a>
-                <a href="https://www.nagiasu.xyz/rule/" class="hover:text-sky-400 transition-colors">規則</a>
-                <a href="https://www.nagiasu.xyz/newbie/" class="hover:text-sky-400 transition-colors">Wiki</a>
-            </div>
-
-            <p class="text-slate-600 text-sm">
-                &copy; 2025 風平浪靜 Minecraft Server. Not affiliated with Mojang Studios.
-            </p>
         </div>
-    </footer>
+    </div>
+</section>
 
-    <!-- JavaScript Logic -->
-    <script>
-        // Initialize Icons
-        lucide.createIcons();
+<!-- Quick Links / Docs -->
+<section class="py-16 bg-slate-50 border-t border-slate-200">
+    <div class="max-w-4xl mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
+        <a href="/rule/" class="p-8 bg-white rounded-xl shadow-sm hover:shadow-md transition-all border border-slate-100 hover:-translate-y-1 group">
+            <div class="w-12 h-12 bg-rose-100 text-rose-500 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
+                <svg
+  aria-hidden="true" class="w-6 h-6 lucide lucide-book"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H19a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H6.5a1 1 0 0 1 0-5H20" />
+</svg>
+            </div>
+            <h3 class="font-bold text-slate-800 text-lg">查看所有規則</h3>
+            <p class="text-sm text-slate-500 mt-2">遵守規範，維護良好環境</p>
+        </a>
+        
+        <a href="/feature/command_table/" class="p-8 bg-white rounded-xl shadow-sm hover:shadow-md transition-all border border-slate-100 hover:-translate-y-1 group">
+            <div class="w-12 h-12 bg-amber-100 text-amber-500 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
+                <svg
+  aria-hidden="true" class="w-6 h-6 lucide lucide-terminal"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M12 19h8" />
+  <path d="m4 17 6-6-6-6" />
+</svg>
+            </div>
+            <h3 class="font-bold text-slate-800 text-lg">指令列表</h3>
+            <p class="text-sm text-slate-500 mt-2">查詢常用的伺服器指令</p>
+        </a>
+        
+        <a href="/newbie/" class="p-8 bg-white rounded-xl shadow-sm hover:shadow-md transition-all border border-slate-100 hover:-translate-y-1 group">
+            <div class="w-12 h-12 bg-sky-100 text-sky-500 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
+                <svg
+  aria-hidden="true" class="w-6 h-6 lucide lucide-users"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+  <path d="M16 3.128a4 4 0 0 1 0 7.744" />
+  <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
+  <circle cx="9" cy="7" r="4" />
+</svg>
+            </div>
+            <h3 class="font-bold text-slate-800 text-lg">完整新手教學</h3>
+            <p class="text-sm text-slate-500 mt-2">從零開始的生存指南</p>
+        </a>
+    </div>
+</section>
 
-        // Copy IP Function
-        function copyIP() {
-            const ipText = "NagiAsu.xyz";
-            navigator.clipboard.writeText(ipText).then(() => {
-                const toast = document.getElementById('copy-toast');
-                toast.classList.remove('opacity-0');
-                toast.style.transform = "translate(-50%, 0px)";
-                
-                setTimeout(() => {
-                    toast.classList.add('opacity-0');
-                    toast.style.transform = "translate(-50%, 10px)";
-                }, 2000);
-            });
-        }
 
-        // Mobile Menu Toggle
-        const menuBtn = document.getElementById('mobile-menu-btn');
-        const mobileMenu = document.getElementById('mobile-menu');
+  <!-- 頁尾（全站共用，照首頁） -->
+  <footer class="bg-slate-900 text-slate-300 py-16 border-t border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 flex flex-col items-center text-center">
+      <div class="mb-12 bg-slate-800/50 p-8 rounded-2xl w-full max-w-2xl border border-slate-700 backdrop-blur-sm">
+        <h3 class="text-2xl font-bold text-white mb-4">加入我們的社群</h3>
+        <p class="mb-6 text-slate-400">獲取最新公告、尋找隊友、或只是閒聊。</p>
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-6">
+          <a href="https://discord.gg/nagiasu" target="_blank" class="mc-btn bg-[#5865F2] hover:brightness-110 border-[#4752c4] text-white px-8 py-3 rounded-lg font-bold flex items-center gap-2 w-full sm:w-auto justify-center">
+            <svg
+  aria-hidden="true" class="w-5 h-5 lucide lucide-message-circle"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M2.992 16.342a2 2 0 0 1 .094 1.167l-1.065 3.29a1 1 0 0 0 1.236 1.168l3.413-.998a2 2 0 0 1 1.099.092 10 10 0 1 0-4.777-4.719" />
+</svg> 加入 Discord
+          </a>
+        </div>
+      </div>
+      <div class="flex items-center gap-2 mb-8">
+        <svg
+  aria-hidden="true" class="text-sky-500 w-6 h-6 lucide lucide-anchor"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M12 6v16" />
+  <path d="m19 13 2-1a9 9 0 0 1-18 0l2 1" />
+  <path d="M9 11h6" />
+  <circle cx="12" cy="4" r="2" />
+</svg>
+        <span class="font-bold text-2xl text-white tracking-wider">風平浪靜 NagiAsu.xyz</span>
+      </div>
+      <div class="flex flex-wrap justify-center gap-x-8 gap-y-4 mb-8 text-sm font-medium">
+        <a href="/" class="hover:text-sky-400 transition-colors">首頁</a>
+        <a href="/#about" class="hover:text-sky-400 transition-colors">關於</a>
+        <a href="/newbie/" class="hover:text-sky-400 transition-colors">新手教學</a>
+        <a href="/rule/" class="hover:text-sky-400 transition-colors">遊玩規範</a>
+        <a href="/contact/" class="hover:text-sky-400 transition-colors">聯絡我們</a>
+        <a href="/donate/" class="hover:text-sky-400 transition-colors">贊助伺服</a>
+      </div>
+      <p class="text-slate-600 text-sm">&copy; 2025 風平浪靜 Minecraft Server. Not affiliated with Mojang Studios.</p>
+    </div>
+  </footer>
 
-        menuBtn.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
-        });
-
-        // Smooth Scroll Helper
-        function scrollToSection(id) {
-            document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
-        }
-
-        // Close mobile menu when clicking a link
-        document.querySelectorAll('#mobile-menu a').forEach(link => {
-            link.addEventListener('click', () => {
-                mobileMenu.classList.add('hidden');
-            });
-        });
-
-        // Navbar Scroll Effect
-        window.addEventListener('scroll', () => {
-            const navbar = document.getElementById('navbar');
-            if (window.scrollY > 50) {
-                navbar.classList.add('shadow-md');
-            } else {
-                navbar.classList.remove('shadow-md');
-            }
-        });
-    </script>
+  <script src="/assets/site.js"></script>
 </body>
 </html>
